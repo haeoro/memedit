@@ -8,12 +8,7 @@
 int programUsageHelper(const int argc) 
 {
     std::string usageMsg = "Usage: memedit -m [memory address] -v [value]";
-    if (argc == 1) 
-    {
-        std::cout << usageMsg << '\n';
-        return 1;
-    }
-    else 
+    if (argc == 1 || argc > 1) 
     {
         std::cout << usageMsg << '\n';
         return 1;
@@ -39,23 +34,19 @@ void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
 
 int searchArgs(int argc, char *args[]) 
 {
-    const char *arguments[] = {"-m", "-v"};
-    for (int o = 0; o < argc; o++) 
+    const char *switches[] = {"-m", "-v"};
+    for (int o = 1; o < argc; o++) 
     {
         for (int i = 0; i < 2; i++) 
         {
-            if (!strcmp(args[o], arguments[i])) 
+            if (!strcmp(args[o], switches[i])) 
             {
                 std::cout << "do smth";
                 return 0;
             }
-            else 
-            {
-                programUsageHelper(argc);
-                return 1;
-            }
         }
     }
+    programUsageHelper(argc);
     return 1;
 }
 
