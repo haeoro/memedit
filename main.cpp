@@ -51,7 +51,6 @@ int searchArgs(int argc, char *args[])
             }
             else 
             {
-                //std::cout << "test";
                 programUsageHelper(argc);
                 return 1;
             }
