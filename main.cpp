@@ -5,6 +5,22 @@
 #include <iostream>
 #include <vector>
 
+int programUsageHelper(const int argc) 
+{
+    std::string usageMsg = "Usage: memedit -m [memory address] -v [value]";
+    if (argc == 1) 
+    {
+        std::cout << usageMsg << '\n';
+        return 1;
+    }
+    else 
+    {
+        std::cout << usageMsg << '\n';
+        return 1;
+    }
+    return 0;
+}
+
 void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
     BOOL wMem =  WriteProcessMemory(
         (HANDLE)pHandle,
@@ -21,23 +37,31 @@ void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
     }
 }
 
-void searchArgs(int argc, char *args[]) 
+int searchArgs(int argc, char *args[]) 
 {
-    const char *arguments[] = {"-m", "-s"};
+    const char *arguments[] = {"-m", "-v"};
     for (int o = 0; o < argc; o++) 
     {
         for (int i = 0; i < 2; i++) 
         {
             if (!strcmp(args[o], arguments[i])) 
             {
-                std::cout << "found match:" << args[o] << arguments[i];
+                std::cout << "do smth";
+                return 0;
+            }
+            else 
+            {
+                //std::cout << "test";
+                programUsageHelper(argc);
+                return 1;
             }
         }
     }
-    std::cout << "no match found.";
+    return 1;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
     DWORD pId = 0;
     LPVOID bAddress = nullptr; 
     LPCVOID uValue = nullptr;
