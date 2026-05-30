@@ -34,15 +34,19 @@ void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
 
 int searchArgs(int argc, char *args[]) 
 {
+    short counter = 0;
     const char *switches[] = {"-m", "-v"};
     for (int o = 1; o < argc; o++) 
     {
-        for (int i = 0; i < 2; i++) 
+        for (int i = 0; i < ((sizeof(switches))/8); i++) 
         {
             if (!strcmp(args[o], switches[i])) 
             {
-                std::cout << "do smth";
-                return 0;
+                counter++;
+                if (counter == 2) 
+                {
+                    return 0;
+                }
             }
         }
     }
@@ -71,5 +75,6 @@ int main(int argc, char *argv[])
 
     ~ make main take 2 arguments, -m for memory address and -v for value.
     ~ create some file documentation at the start, make it nice and neat. 
+    ~ implement argument error checking in writememory function.
 
 */
