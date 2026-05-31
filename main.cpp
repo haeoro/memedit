@@ -7,7 +7,7 @@
 
 int programUsageHelper(const int argc) 
 {
-    std::string usageMsg = "Usage: memedit -m [memory address] -v [value]";
+    std::string usageMsg = "Usage: memedit -m [memory address] -v [value] -p [process id]";
     if (argc == 1 || argc > 1) 
     {
         std::cout << usageMsg << '\n';
@@ -35,7 +35,7 @@ void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
 int searchArgs(int argc, char *args[]) 
 {
     short counter = 0;
-    const char *switches[] = {"-m", "-v"};
+    const char *switches[] = {"-m", "-v", "-p"};
     for (int o = 1; o < argc; o++) 
     {
         for (int i = 0; i < ((sizeof(switches))/8); i++) 
@@ -43,7 +43,7 @@ int searchArgs(int argc, char *args[])
             if (!strcmp(args[o], switches[i])) 
             {
                 counter++;
-                if (counter == 2) 
+                if (counter == 3) 
                 {
                     return 0;
                 }
@@ -59,7 +59,10 @@ int main(int argc, char *argv[])
     DWORD pId = 0;
     LPVOID bAddress = nullptr; 
     LPCVOID uValue = nullptr;
-    searchArgs(argc, argv);
+    if (!searchArgs(argc, argv)) 
+    {
+        std::cout << argv[1+1] << "\n" << argv[3+1]<< "\n" << argv[5+1];
+    }
     return 1;
     HANDLE pHandle = OpenProcess(
         PROCESS_VM_OPERATION | PROCESS_VM_WRITE, 
@@ -76,5 +79,6 @@ int main(int argc, char *argv[])
     ~ make main take 2 arguments, -m for memory address and -v for value.
     ~ create some file documentation at the start, make it nice and neat. 
     ~ implement argument error checking in writememory function.
+    ~ write a function to convert argument to a pointer.
 
 */
