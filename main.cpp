@@ -56,14 +56,13 @@ int searchArgs(int argc, char *args[])
 
 int main(int argc, char *argv[]) 
 {
-    DWORD pId = 0;
     LPVOID bAddress = nullptr; 
     LPCVOID uValue = nullptr;
-    if (!searchArgs(argc, argv)) 
+    if (searchArgs(argc, argv)) 
     {
-        std::cout << argv[1+1] << "\n" << argv[3+1]<< "\n" << argv[5+1];
+        return 1;
     }
-    return 1;
+    DWORD pId = std::stoi(argv[6]);
     HANDLE pHandle = OpenProcess(
         PROCESS_VM_OPERATION | PROCESS_VM_WRITE, 
         FALSE, 
