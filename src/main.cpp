@@ -1,5 +1,19 @@
-// Small program to update data for memory addresses.
-// ovh.feminine216@passinbox.com
+/*-------------------------------------------------------------------
+
+*   ``~ Main code file for memedit (Written by haeoro) ~``
+*
+*   Small program written to make modifications to a memory address  
+*   within a software application.
+*
+*   The program is nowhere near as sophisticated as some of the popular
+*   memory scanners out there, as it is a beginner project. Hell, it doesn't
+*   even have a memory scanning feature. 
+*
+*   I thought I'd come back to this project and implement some argument passing
+*   functionality, as opposed to it's initial method of input: std::cin. 
+
+-------------------------------------------------------------------*/
+
 
 #include <windows.h>
 #include <iostream>
@@ -18,16 +32,24 @@ int programUsageHelper(const int argc)
 
 void writeMemory(HANDLE pHandle, LPVOID bAddress, LPCVOID uValue) {
     BOOL wMem =  WriteProcessMemory(
-        (HANDLE)pHandle,
+        pHandle,
         bAddress,
         uValue,
         (SIZE_T)sizeof(DWORD),
         NULL
-    );   
-    if (wMem == 0) {
-        std::cout << "\nMemory write failed with ERROR code: " << GetLastError();
+    );  
+    std::cout << writeMemory; 
+    if (!writeMemory) 
+    {
+        int memoryOperation = GetLastError();
+        std::cout << memoryOperation;
+        if (memoryOperation == 6) 
+        {
+            std::cout << "memedit: Please specify a valid process id.";
+        }
     }
-    else if (wMem == 1) {
+    else if (writeMemory)
+    {
         std::cout << "\nMemory operation successfully completed! ";
     }
 }
@@ -70,14 +92,3 @@ int main(int argc, char *argv[])
     );
     writeMemory(pHandle, bAddress, uValue);
 }
-
-/*
-
-    TO-DO
-
-    ~ make main take 2 arguments, -m for memory address and -v for value.
-    ~ create some file documentation at the start, make it nice and neat. 
-    ~ implement argument error checking in writememory function.
-    ~ write a function to convert argument to a pointer.
-
-*/
